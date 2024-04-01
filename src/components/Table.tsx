@@ -6,7 +6,17 @@ const getColorClass = (data: string) => {
 	return parseFloat(data) < 0 ? 'text-red-500' : 'text-green-500';
 }
 
-export const Table: React.FC<{ tableData: DataProps[] }>  = ({ tableData }) => {
+const calcDifferencePayment = (amount: string, payment: number) => {
+	const diff = (parseFloat(amount) === 0) ? 0 :  payment - parseFloat(amount);
+	return diff.toFixed(2)
+}
+
+interface TableProps {
+	tableData: DataProps[];
+	paymentWithoutChange: number;
+}
+
+export const Table: React.FC<TableProps>  = ({ tableData, paymentWithoutChange }) => {
 
 	return (
 		<div className="scroll-table">
@@ -23,7 +33,7 @@ export const Table: React.FC<{ tableData: DataProps[] }>  = ({ tableData }) => {
 						<th  className="border border-gray-300 px-4 py-2">Full Total Interest</th>
 						<th  className="border border-gray-300 px-4 py-2">New payment</th>
 						<th  className="border border-gray-300 px-4 py-2">New Interest for Remaining Term</th>
-						<th  className="border border-gray-300 px-4 py-2">Total will be Pay</th>
+						<th  className="border border-gray-300 px-4 py-2">Total will be Paid</th>
 						<th  className="border border-gray-300 px-4 py-2">Difference between total Payments</th>
 						<th  className="border border-gray-300 px-4 py-2">Difference Amount</th>
 					</tr>
@@ -46,8 +56,9 @@ export const Table: React.FC<{ tableData: DataProps[] }>  = ({ tableData }) => {
 							<td  className="border border-gray-300 px-4 py-2 text-end ">{data.newInterestAmount}</td>
 							<td  className="border border-gray-300 px-4 py-2 text-end ">{data.totalPayAmount}</td>
 							<td
-								className={`border border-gray-300 px-4 py-2 text-end ${getColorClass(data.differencePayments)}`}>
-								{data.differencePayments}
+								className={`border border-gray-300 px-4 py-2 text-end
+									${getColorClass(calcDifferencePayment(data.totalPayAmount, paymentWithoutChange))}`}>
+								{calcDifferencePayment(data.totalPayAmount, paymentWithoutChange)}
 							</td>
 							<td
 								className={`border border-gray-300 px-4 py-2 text-end ${getColorClass(data.differenceInterest)}`}>

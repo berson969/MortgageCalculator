@@ -31,6 +31,7 @@ export const Forms: React.FC<FormsProps> = ({ onCalc }) => {
 
 
 	const handleCalculate = () => {
+		console.log("secondMonths", secondMonths)
 		const annuityPayment = getAnnuityPayment(principal, annualInterestRate, months);
 		const formData: FormData = { principal, annualInterestRate, months, annuityPayment, secondPrincipal, secondMonths, userPayment}
 		onCalc(formData)
@@ -47,15 +48,15 @@ export const Forms: React.FC<FormsProps> = ({ onCalc }) => {
 
 	return (
 		<div className="flex flex-col justify-center my-12 mx-64">
-			<div className="flex justify-between">
+			<div className="flex justify-between font-yeseva">
 				<div className="flex flex-col gap-2">
 					<div className="flex  w-96 justify-between">
-						<label htmlFor="loan-amount" className="font-rubik mr-5 whitespace-nowrap text-xl">Loan Amount</label>
+						<label htmlFor="loan-amount" className="mr-5 whitespace-nowrap text-xl">Loan Amount</label>
 						<input
 							id="loan-amount"
 							type="number"
 							min="0"
-							step="100"
+							step="1000"
 							placeholder="Loan Amount"
 							value={principal === 0 ? '' : principal}
 							onChange={(e) => setPrincipal(parseFloat(e.target.value))}
@@ -64,7 +65,7 @@ export const Forms: React.FC<FormsProps> = ({ onCalc }) => {
 						/>
 					</div>
 					<div className="flex  w-96 justify-between">
-						<label htmlFor="interest-rate" className="font-rubik mr-5 whitespace-nowrap text-xl">Interest Rate</label>
+						<label htmlFor="interest-rate" className="mr-5 whitespace-nowrap text-xl">Interest Rate</label>
 						<input
 							id="interest-rate"
 							type="number"
@@ -78,7 +79,7 @@ export const Forms: React.FC<FormsProps> = ({ onCalc }) => {
 						/>
 					</div>
 					<div className="flex  w-96 justify-between">
-						<label htmlFor="months-left" className="font-rubik mr-5 whitespace-nowrap text-xl">Term in months</label>
+						<label htmlFor="months-left" className="mr-5 whitespace-nowrap text-xl">Term in months</label>
 						<input
 							id="months-left"
 							type="number"
@@ -92,7 +93,7 @@ export const Forms: React.FC<FormsProps> = ({ onCalc }) => {
 						/>
 					</div>
 					<div className="flex  w-96 justify-between">
-						<label htmlFor="user-payment" className="font-rubik mr-5 whitespace-nowrap text-xl">Payment</label>
+						<label htmlFor="user-payment" className="mr-5 whitespace-nowrap text-xl">Payment</label>
 						<input
 							id="user-payment"
 							type="number"
@@ -108,7 +109,7 @@ export const Forms: React.FC<FormsProps> = ({ onCalc }) => {
 				</div>
 				<div className="flex flex-col gap-2">
 					<div className="flex  w-96 justify-between">
-						<label htmlFor="second-loan" className="font-rubik mr-5 px-2 whitespace-nowrap text-xl">DPAL</label>
+						<label htmlFor="second-loan" className="mr-5 px-2 whitespace-nowrap text-xl">DPAL</label>
 						<input
 							id="second-loan"
 							type="number"
@@ -122,15 +123,26 @@ export const Forms: React.FC<FormsProps> = ({ onCalc }) => {
 						/>
 					</div>
 					<div className="flex w-96 justify-between">
-						<label htmlFor="second-months-left" className="font-rubik mr-5 px-2 whitespace-nowrap text-xl">DPAL in months</label>
+						<label htmlFor="second-months-left" className="mr-5 px-2 whitespace-nowrap text-xl">DPAL in months</label>
 						<input
 							id="second-months-left"
 							type="number"
 							min="0"
 							step="10"
 							placeholder="Second Months left"
-							value={secondMonths <= 0 ? '' : secondMonths}
-							onChange={(e) => setSecondMonths(parseFloat(e.target.value))}
+							value={secondMonths <= 0 ? 0 : secondMonths}
+							onChange={(e) => {
+								const newValue = e.target.value;
+								setSecondMonths(prevState => {
+									if (!newValue) {
+										return prevState;
+									}
+									return parseFloat(e.target.value)
+
+								})
+							}
+							}
+
 							className="text-right border-2 rounded-s border-sky-500  h-8 custom-placeholder lowercase"
 							required
 						/>

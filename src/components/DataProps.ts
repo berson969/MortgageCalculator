@@ -12,7 +12,6 @@ export interface DataProps {
 	differenceInterest: string;
 	newPayment: string;
 	totalPayAmount: string;
-	differencePayments: string;
 }
 
 export interface FormData {

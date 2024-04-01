@@ -4,6 +4,7 @@ import {Table} from "./Table.tsx";
 import {DataProps, FormData} from "./DataProps.ts";
 import Constants from "./Constants.tsx";
 import {getAnnuityPayment, interestNew} from "./startCalculate.ts";
+import Legend from "./Legend.tsx";
 
 const MortgageCalculator : React.FC = () => {
 	const [tableData, setTableData] = useState<DataProps[]>([]);
@@ -63,13 +64,11 @@ const MortgageCalculator : React.FC = () => {
 			let newInterestAmount = 0;
 			let newPayment = 0;
 			let totalPayAmount = 0;
-			let differencePayments = 0;
 
 			if (newTerm > 0 && balance > 0) {
 				newInterestAmount = interestNew(balance, monthInterestRate, newTerm );
 				newPayment = getAnnuityPayment(balance, annualInterestRate, newTerm);
 				totalPayAmount = userPayment * (i + 1) + newPayment * newTerm;
-				differencePayments = userPayment * secondMonths - totalPayAmount;
 
 				if (!isMade && newInterestAmount - secondRemainingBalance < 0) {
 
@@ -92,11 +91,15 @@ const MortgageCalculator : React.FC = () => {
 				differenceInterest: (newInterestAmount > 0) ? (secondRemainingBalance -  newInterestAmount).toFixed(2) : "0.00",
 				newPayment: newPayment.toFixed(2),
 				totalPayAmount: totalPayAmount.toFixed(2),
-				differencePayments: differencePayments.toFixed(2)
 			})
 			if (balance <= 0) {break}  //
 		}
-		setPaymentWithoutChange(userPayment * newData.length);
+		setPaymentWithoutChange(
+			userPayment * (newData.length - 1)
+			+ parseFloat(newData[newData.length - 2].remainingBalance)
+			+ parseFloat(newData[newData.length - 1].secondRemainingBalance)
+			+ parseFloat(newData[newData.length - 1].currentInterestPaid)
+		);
 
 		setTableData([...newData]);
 		setAnnuityPayment(annuityPayment);
@@ -104,14 +107,20 @@ const MortgageCalculator : React.FC = () => {
 	}
 	return (
 		<div className="container mx-auto">
-			<Forms onCalc={calculateData} />
+			<Forms
+				onCalc={calculateData}
+			/>
 			<Constants
 				annuityPayment={annuityPayment}
 				targetMonth={targetMonth}
 				targetRemainingBalance={targetRemainingBalance}
 				paymentWithoutChange={paymentWithoutChange}
 			/>
-			<Table tableData={tableData} />
+			<Table
+				tableData={tableData}
+				paymentWithoutChange={paymentWithoutChange}
+			/>
+			<Legend />
 		</div>
 	);
 };
