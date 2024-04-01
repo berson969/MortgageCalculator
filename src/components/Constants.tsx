@@ -22,7 +22,7 @@ const Constants: React.FC<ConstantsProps> = ({ annuityPayment, targetMonth, targ
 				</span>
 			)}
 			<span className="font-rubik justify-center mr-16">
-				{`Total payment without recalculate  ${paymentWithoutChange}`}
+				{`Total payment without recalculate  ${paymentWithoutChange.toFixed(2)}`}
 			</span>
 		</div>
 	);
