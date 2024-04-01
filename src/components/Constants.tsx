@@ -11,7 +11,7 @@ const Constants: React.FC<ConstantsProps> = ({ annuityPayment, targetMonth, targ
 	return (
 		<div className="flex m-5 justify-between">
 			<span className="font-rubik justify-center mr-16">
-				{`Annuity Payment first loan ${(annuityPayment > 0) ? annuityPayment.toFixed(2) : ""}`}
+				{`Annuity Payment first loan ${(annuityPayment > 0) ? annuityPayment.toFixed(2) : "not provided"}`}
 			</span>
 			<span className="font-rubik justify-center mr-16">
 				{`Number of target month ${targetMonth ? targetMonth : "not provided"}`}

@@ -20,6 +20,8 @@ export const Forms: React.FC<FormsProps> = ({ onCalc }) => {
 			secondMonths,
 			userPayment} = getFormData();
 
+		console.log("secondMonths", secondMonths)
+		console.log('principal', principal)
 		setPrincipal(principal);
 		setAnnualInterestRate(annualInterestRate);
 		setMonths(months);
@@ -29,12 +31,19 @@ export const Forms: React.FC<FormsProps> = ({ onCalc }) => {
 
 	}, []);
 
+	useEffect(() => {
+		if (!secondMonths)  {
+			setSecondMonths(120);
+		}
+	}, [secondMonths]);
 
 	const handleCalculate = () => {
-		console.log("secondMonths", secondMonths)
+
 		const annuityPayment = getAnnuityPayment(principal, annualInterestRate, months);
 		const formData: FormData = { principal, annualInterestRate, months, annuityPayment, secondPrincipal, secondMonths, userPayment}
+
 		onCalc(formData)
+
 		saveFormData({
 			principal,
 			annualInterestRate,
@@ -130,21 +139,11 @@ export const Forms: React.FC<FormsProps> = ({ onCalc }) => {
 							min="0"
 							step="10"
 							placeholder="Second Months left"
-							value={secondMonths <= 0 ? 0 : secondMonths}
-							onChange={(e) => {
-								const newValue = e.target.value;
-								setSecondMonths(prevState => {
-									if (!newValue) {
-										return prevState;
-									}
-									return parseFloat(e.target.value)
-
-								})
-							}
-							}
+							value={secondMonths != null ? secondMonths : ''}
+							onChange={e => setSecondMonths(parseFloat(e.target.value))}
 
 							className="text-right border-2 rounded-s border-sky-500  h-8 custom-placeholder lowercase"
-							required
+
 						/>
 					</div>
 				</div>

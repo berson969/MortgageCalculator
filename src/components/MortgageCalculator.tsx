@@ -45,9 +45,6 @@ const MortgageCalculator : React.FC = () => {
 		for (let i = 0; i < months; i++) {
 			const currentInterestPaid = balance * monthInterestRate;
 
-			// balance -= (userPayment - currentInterestPaid);
-			// if (balance < 0) {balance = 0 }   //
-
 			const newBalance = balance - (userPayment - currentInterestPaid);
 			balance = newBalance >= 0 ? newBalance : 0;
 
@@ -57,7 +54,6 @@ const MortgageCalculator : React.FC = () => {
 			const correctTotalInterestPaid = totalInterestPaid - monthlyCorrect;
 			const secondRemainingBalance = (secondBalance >= 0) ? secondBalance : 0;
 
-			// const totalTotalInterestPaid = correctTotalInterestPaid + secondRemainingBalance;
 			const totalTotalInterestPaid = totalInterestPaid - (secondPrincipal - secondRemainingBalance);
 
 			const newTerm = secondMonths - (i + 1);

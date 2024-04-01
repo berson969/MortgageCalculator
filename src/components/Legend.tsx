@@ -3,11 +3,12 @@ import Markdown from "react-markdown";
 
 const Legend: React.FC = () => {
 	const textLegend = `
-**LEGEND**
+# **LEGEND**
 * *AnnP* **Annuity Payment first loan** Аннуитетный платеж по первоначальному кредиту (**K * principal**)
-* *TgtM* *Number of Target Month** Номер месяца, когда сумма выплачиваемых процентов при пересчете сравняется с остатком баланса DPAL
+* *TgtM* **Number of Target Month** Номер месяца, когда сумма выплачиваемых процентов при пересчете сравняется с остатком баланса DPAL
 * *TgtB* **Remaining Balance in target** Остаток баланса основного кредита на **TgtM**
 * *SUM* **Total payment without recalculate** Сумма, которую надо выплатить если продолжать платить платеж из **п2** (**п2 * (*последний месяц п1* - 1) + (*предпоследний месяц п3*) + (*остаток DPAL*) + (*последние проценты п4*)**)
+
 
 1. *п1* **Month** Текущий месяц
 2. *п2* **Payment** Платеж, который клиент выбрал для первоначальной выплаты кредита
