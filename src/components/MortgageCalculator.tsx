@@ -107,6 +107,7 @@ const MortgageCalculator : React.FC = () => {
 	}
 	return (
 		<div className="container mx-auto">
+			<h1 className="text-4xl text-center p-4 font-bold">Calculator DPAL</h1>
 			<Forms
 				onCalc={calculateData}
 			/>
